@@ -18,9 +18,9 @@ The only support for strings in the programming language proper is that the comp
 
 ## Makefile
 To compile a static library, a target is provided:
-	s21_string.a
+	`s21_string.a`
 Standard targets are also provided, such as:
-	clean, all(compile lib and test coverage), rebuild.
+	`clean`, `all`(compile lib and test coverage), `rebuild`.
 
 
 ### string.h Types
