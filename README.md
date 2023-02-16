@@ -3,11 +3,11 @@
 #### Here are the completed training projects.
 ##### So far I have explored the following areas
 
--Golang
--C
--C++
--DevOps
--Python
+	-Golang
+	-C
+	-C++
+	-DevOps
+	-Python
 
 `Python` and `DevOps` are interesting as research and technical expertise.
 
