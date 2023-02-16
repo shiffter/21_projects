@@ -13,6 +13,6 @@
 
 `C` was studied as the basis of programming and the use of a structured programming style.
 
-`C++` was chosen for learning object oriented programming
+`C++` was chosen for learning object oriented programming.
 
 I see the further development of my career in back-end development in the `Go` language.
