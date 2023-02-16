@@ -15,6 +15,14 @@ In this project our team developed own implementation of the string.h library in
 The C programming language has a set of functions implementing operations on strings (character strings and byte strings) in its standard library. Various operations, such as copying, concatenation, tokenization and searching are supported. For character strings, the standard library uses the convention that strings are null-terminated: a string of n characters is represented as an array of n + 1 elements, the last of which is a "NULL" character. \
 The only support for strings in the programming language proper is that the compiler translates quoted string constants into null-terminated strings.
 
+
+## Makefile
+To compile a static library, a target is provided:
+	s21_string.a
+Standard targets are also provided, such as:
+	clean, all(compile lib and test coverage), rebuild.
+
+
 ### string.h Types
 
 | No. | Variable | Description |
@@ -27,7 +35,7 @@ The only support for strings in the programming language proper is that the comp
 | ------ | ------ | ------ |
 | 1 | NULL | This macro is the value of a null pointer constant. |
 
-### string.h Functions
+### string.h Available functions
 
 | No. | Function | Description |
 | ------ | ------ | ------ |
