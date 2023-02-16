@@ -1,7 +1,7 @@
 ### 21_projects
 
-## Here are the completed training projects.
-# So far I have explored the following areas
+#### Here are the completed training projects.
+##### So far I have explored the following areas
 
 -Golang
 -C
