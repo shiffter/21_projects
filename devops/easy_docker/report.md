@@ -39,12 +39,6 @@
 #### Create local nginx.conf
 ![part2](part_2/local_nginx.png "create local nginx.conf")
 
-#### Copy into container with `docker cp`
-![part2](part_2/cp_into.png "docker cp comand")
-
-#### Restart inside container
-![part2](part_2/reload.png "docker exec")
-
 #### Shown status nginx page
 ![part2](part_2/status.png "current nginx status")
 
