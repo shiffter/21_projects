@@ -36,9 +36,6 @@
 #### nginx.conf inside container
 ![part2](part_2/exec.png "nginx.conf")
 
-#### Create local nginx.conf
-![part2](part_2/local_nginx.png "create local nginx.conf")
-
 #### Shown status nginx page
 ![part2](part_2/status.png "current nginx status")
 
@@ -47,3 +44,15 @@
 
 #### Import and run container
 ![part2](part_2/import_and_run.png "delete->import->run")
+
+
+## Part 3. Mini web server.
+
+#### Write hello world page and spawn fcgi on 8080 port
+![part3](part_3/spawn.png "source code and swapn on 8080")
+
+#### Nginx configure
+![part3](part_3/nginx.png "nginx conf")
+
+#### Get Hello World Page
+![part3](part_3/curl.png "Get page")
