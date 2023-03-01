@@ -1,0 +1,11 @@
+services:
+  local-server:
+    image: image_p4_ref 
+    ports: 
+      - "82:81"
+  proxy-server:
+    image: nginx
+    ports:
+      - "80:8080"
+    volumes:
+      - ./nginx:/etc/nginx

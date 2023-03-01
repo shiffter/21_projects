@@ -74,3 +74,21 @@
 
 #### Get status page.
 ![part4](part_4/final.png)
+
+
+## Part 5. Dockle
+
+#### Check image with dockle.
+![part5](part_5/5.png)
+
+
+## Part 6. Docker compose
+
+#### Build and start 2 containers.
+![part6](part_6/build.png)
+
+#### Curl for localhost and 80 port.
+![part6](part_6/curl.png)
+
+####  Get response from logs.
+![part6](part_6/get.png)
