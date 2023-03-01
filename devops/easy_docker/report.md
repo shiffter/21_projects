@@ -56,3 +56,21 @@
 
 #### Get Hello World Page
 ![part3](part_3/curl.png "Get page")
+
+
+## Part 4. Own docker.
+
+#### Build image and spawn on 81 ports.
+![part4](part_4/build_t.png "build and run")
+
+#### Curl from localhost and nginx conf.
+![part4](part_4/curl.png)
+
+#### Local nginx conf.
+![part4](part_4/local_nginx.conf)
+
+#### Run with mount new nginx conf.
+![part4](part_4/new_nginx)
+
+#### Get status page.
+![part4](part_4/final.png)
