@@ -67,10 +67,10 @@
 ![part4](part_4/curl.png)
 
 #### Local nginx conf.
-![part4](part_4/local_nginx.conf)
+![part4](part_4/local_nginx.png)
 
 #### Run with mount new nginx conf.
-![part4](part_4/new_nginx)
+![part4](part_4/new_nginx.png)
 
 #### Get status page.
 ![part4](part_4/final.png)
