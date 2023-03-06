@@ -40,6 +40,16 @@ S21Matrix::S21Matrix(const S21Matrix& o) {
 		}
 	}
 }
+
+
+S21Matrix::S21Matrix(S21Matrix&& o){
+	matrix = o.getM();
+	rows_ = o.getR();
+	cols_ = o.getC();
+	o.setR(0);
+	o.setC(0);
+	o.setM();
+}
 // S21Matrix a {b};
 // S21Matrix a;
 // a = b;
@@ -62,12 +72,44 @@ void S21Matrix::PrintMatrix() {
 		}
 		cout << endl;
 	}	
-}; 
+}
+
+
+bool S21Matrix::EqMatrix(const S21Matrix& o) {
+	if (o.rows_ != rows_ || o.cols_ != cols_){
+		return false;
+	}
+	for (int i = 0; i < rows_; i++) {
+		for (int j = 0; j < cols_; j++) {
+			if (std::fabs(matrix[i][j] - o.matrix[i][j]) > 1e-6)  {
+				return false;
+			}
+		}
+	}
+	return true;	
+}
+
+
+// void SumMatrix(const S21Matrix& o){
+//
+// }
+
+
+bool operator==(S21Matrix left, S21Matrix right) {
+	return left.EqMatrix(right);
+}
+
 
 int main() {
-	S21Matrix asd(3,5);
-	S21Matrix P2 = asd;
-	cout << endl;
-	P2.PrintMatrix();
+	S21Matrix asd(2,2);
+	S21Matrix P2(2,2);
+	// cout << asd.EqMatrix(P2) << endl;
+	cout << (asd==P2) << endl;
+	// P2.PrintMatrix();
+	cout << "asd" <<endl;
+	// asd.PrintMatrix();
+	// cout << asd.getR() << endl;
+	// cout << asd.getC() << endl;
+	// cout << asd.getM() << endl;
 	return 0;
 }

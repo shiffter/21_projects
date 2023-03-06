@@ -3,11 +3,12 @@
 
 #include <iostream>
 #include <ctime>
+#include <cmath>
 
 class S21Matrix
 {
 	private:
-		int rows_ = 1, cols_ = 1;
+		int rows_, cols_;
 		double **matrix;
 
 	public:
@@ -15,6 +16,10 @@ class S21Matrix
 		S21Matrix(int, int);
 		~S21Matrix();
 		S21Matrix(const S21Matrix& o);
+		S21Matrix(S21Matrix&& o);
+		void setM() {
+			matrix = nullptr;
+		}
 		void setR(int val) {
 			rows_ = val;
 		}
@@ -32,6 +37,11 @@ class S21Matrix
 
 		//methods 
 		void PrintMatrix();
+		bool EqMatrix(const S21Matrix& o);
+		void SumMatrix(const S21Matrix& o);
+
+		// Operators
+		friend bool operator==(const S21Matrix, const S21Matrix);
 };
 
 #endif
