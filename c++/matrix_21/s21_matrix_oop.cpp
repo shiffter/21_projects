@@ -91,7 +91,9 @@ bool S21Matrix::EqMatrix(const S21Matrix& o) {
 
 
 // void SumMatrix(const S21Matrix& o){
-//
+// 	for (int i = 0; i < this->rows_; i++) {
+// 		for (int j = 0; j < )
+// 	}
 // }
 
 
@@ -100,16 +102,16 @@ bool operator==(S21Matrix left, S21Matrix right) {
 }
 
 
-int main() {
-	S21Matrix asd(2,2);
-	S21Matrix P2(2,2);
+// int main() {
+// 	S21Matrix asd(2,2);
+// 	S21Matrix P2(2,2);
 	// cout << asd.EqMatrix(P2) << endl;
-	cout << (asd==P2) << endl;
+	// cout << (asd==P2) << endl;
 	// P2.PrintMatrix();
-	cout << "asd" <<endl;
+	// cout << "asd" <<endl;
 	// asd.PrintMatrix();
 	// cout << asd.getR() << endl;
 	// cout << asd.getC() << endl;
 	// cout << asd.getM() << endl;
-	return 0;
-}
+// 	return 0;
+// }
