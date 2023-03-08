@@ -13,7 +13,7 @@ class S21Matrix
 
 	public:
 		S21Matrix();
-		S21Matrix(int, int);
+		S21Matrix(size_t, size_t);
 		~S21Matrix();
 		S21Matrix(const S21Matrix& o);
 		S21Matrix(S21Matrix&& o);

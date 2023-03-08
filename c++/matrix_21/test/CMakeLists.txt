@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
  
+
 # Locate GTest
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 find_package(GTest  REQUIRED)

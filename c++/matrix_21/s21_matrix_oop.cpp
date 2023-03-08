@@ -10,7 +10,10 @@ S21Matrix::S21Matrix() {
 }
 
 
-S21Matrix::S21Matrix(int r, int c) {
+S21Matrix::S21Matrix(size_t r, size_t c) {
+	if (r < 1 || c < 1) {
+		throw "incorrect size";
+	}
 	rows_ = r;
 	cols_ = c;
 	matrix = new double*[r];
@@ -49,6 +52,7 @@ S21Matrix::S21Matrix(S21Matrix&& o){
 	o.setR(0);
 	o.setC(0);
 	o.setM();
+	cout << "move constructor using" << endl;
 }
 // S21Matrix a {b};
 // S21Matrix a;
@@ -101,17 +105,14 @@ bool operator==(S21Matrix left, S21Matrix right) {
 	return left.EqMatrix(right);
 }
 
-
+S21Matrix pass(S21Matrix s) {
+	S21Matrix b(s.getR(), s.getC()); 
+	return b;
+}
+//
 // int main() {
-// 	S21Matrix asd(2,2);
-// 	S21Matrix P2(2,2);
-	// cout << asd.EqMatrix(P2) << endl;
-	// cout << (asd==P2) << endl;
-	// P2.PrintMatrix();
-	// cout << "asd" <<endl;
-	// asd.PrintMatrix();
-	// cout << asd.getR() << endl;
-	// cout << asd.getC() << endl;
-	// cout << asd.getM() << endl;
-// 	return 0;
+// 	S21Matrix a(5, 3);
+// 	S21Matrix b = std::move(a);
+// 	cout << b.getC() << endl;
+// 	cout << a.getC() << endl;
 // }

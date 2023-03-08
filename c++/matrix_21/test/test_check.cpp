@@ -13,6 +13,12 @@ TEST(CreateMatrix, ParamConstr) {
 	S21Matrix a(3, 5);
 	ASSERT_EQ(3, a.getR());
 	ASSERT_EQ(5, a.getC());
+
+	try {
+		S21Matrix a(0, 0);
+	} catch(const char* msg) {
+		ASSERT_EQ("incorrect size", msg);
+	} 
 }
 
 
@@ -29,21 +35,22 @@ TEST(Copy, Constr) {
 	}
 }
 
-S21Matrix pass(S21Matrix s) {
-	return s;
-}
 
 TEST(Mv, Constr) {
 	S21Matrix a(5, 3);
-	S21Matrix b;
-	b = pass(a);
+	S21Matrix b = std::move(a);
+
 	ASSERT_EQ(0, a.getR());
 	ASSERT_EQ(0, a.getC());
 	ASSERT_EQ(nullptr, a.getM());
-	// ASSERT_EQ(5, b.getR());
-	// ASSERT_EQ(3, b.getC());
-	// ASSERT_EQ(nullptr, a.getM());
+
+	ASSERT_EQ(5, b.getR());
+	ASSERT_EQ(3, b.getC());
+	ASSERT_NE(nullptr, b.getM());
 }
+
+
+
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
