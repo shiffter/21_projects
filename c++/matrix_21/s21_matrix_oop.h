@@ -2,13 +2,12 @@
 #define __S21MATRIX_H__
 
 #include <iostream>
-#include <ctime>
-#include <cmath>
+#include <random>
 
 class S21Matrix
 {
 	private:
-		int rows_, cols_;
+		int _rows, _cols;
 		double **matrix;
 
 	public:
@@ -21,27 +20,34 @@ class S21Matrix
 			matrix = nullptr;
 		}
 		void setR(int val) {
-			rows_ = val;
+			_rows = val;
 		}
 		void setC(int val){
-			cols_ = val;
+			_cols = val;
 		}
 
 		int getR() const {
-			return rows_;
+			return _rows;
 		}
 		int getC() const {
-			return cols_;
+			return _cols;
 		}
 		double** getM() const { return matrix; }
 
 		//methods 
 		void PrintMatrix();
-		bool EqMatrix(const S21Matrix& o);
-		void SumMatrix(const S21Matrix& o);
-
+		bool EqMatrix(const S21Matrix&);
+		void SumMatrix(const S21Matrix&);
+		void SubMatrix(const S21Matrix&);
+		void MulNumber(const double);
+		void MulMatrix(const S21Matrix&);
 		// Operators
-		friend bool operator==(const S21Matrix, const S21Matrix);
+		bool operator==(const S21Matrix& r);
+		S21Matrix& operator+(const S21Matrix& r);
+		S21Matrix& operator-(const S21Matrix& r);
+		S21Matrix& operator=(const S21Matrix&);
+		// S21Matrix& operator*(const S21Matrix&);
+
 };
 
 #endif
