@@ -34,7 +34,7 @@ S21Matrix::S21Matrix(size_t r, size_t c) {
 S21Matrix::S21Matrix(const S21Matrix& o) {
 	_rows = o.getR();
 	_cols = o.getC();
-	matrix = nullptr;
+	// matrix = nullptr;
 	double** matrixO = o.getM();	
 	matrix = new double*[_rows];
 	for (int i = 0; i < _rows; i++) {
@@ -45,17 +45,19 @@ S21Matrix::S21Matrix(const S21Matrix& o) {
 			matrix[i][j] = matrixO[i][j];
 		}
 	}
+	cout << "Copy constr used" << endl;
 }
 
 
 S21Matrix::S21Matrix(S21Matrix&& o){
-	matrix = o.getM();
-	_rows = o.getR();
-	_cols = o.getC();
-	o.setR(0);
-	o.setC(0);
-	o.setM();
+	_rows = o._rows;
+	_cols = o._cols;
+	matrix = o.matrix;
+	o._rows = 0;
+	o._cols = 0;
+	o.matrix = nullptr;
 	cout << "move constructor using" << endl;
+	// return *this;
 }
 // S21Matrix a {b};
 // S21Matrix a;
@@ -148,10 +150,29 @@ void S21Matrix::MulMatrix(const S21Matrix& o) {
 			result.matrix[i][j] = t;
 		}
 	}
-	this = std::move(&result);
+	// this = std::move(&result);
 }
 	
+//helpers func
 
+
+void S21Matrix::free_matrix() {
+	if (matrix) {
+		for (int i = 0; i < _rows; i++) {
+			delete[] matrix[i];
+		}
+		delete[] matrix;
+		// this->PrintMatrix();
+	}
+}		
+
+double** S21Matrix::alloc() {
+	matrix = new double*[_rows];
+	for (int i = 0; i < _rows; i++) {
+		matrix[i] = new double[_cols];
+	}
+	return matrix;
+}
 
 
 bool S21Matrix::operator==(const S21Matrix& right) {
@@ -160,18 +181,40 @@ bool S21Matrix::operator==(const S21Matrix& right) {
 
 S21Matrix& S21Matrix::operator+(const S21Matrix& m2) {
 	this->SumMatrix(m2);
+	cout << "Plus operator used" << endl;
 	return *this;
 }
 
 
 S21Matrix& S21Matrix::operator-(const S21Matrix& m2) {
 	this->SubMatrix(m2);
+	cout << "- operator used" << endl;
 	return *this;
 }
 
 
 S21Matrix& S21Matrix::operator=(const S21Matrix& m2) {
-	*this = std::move(m2); 
+	this->free_matrix();
+	this->matrix = this->alloc();
+	for (int i=0; i < _rows; i++) {
+		for (int j=0; j < _cols; j++) {
+			matrix[i][j] = m2.matrix[i][j];
+		}
+	}
+	cout << "= copy operator used" << endl;
+	return *this;
+}
+
+S21Matrix& S21Matrix::operator=(S21Matrix&& o) {
+	this->free_matrix();
+	_rows = o._rows;
+	_cols = o._cols;
+	matrix = o.matrix;
+	o._rows = 0;
+	o._cols = 0;
+	o.matrix = nullptr;
+	// o.~S21Matrix();
+	cout << "= move operator used" << endl;
 	return *this;
 }
 
@@ -186,10 +229,10 @@ S21Matrix& S21Matrix::operator=(const S21Matrix& m2) {
 // }
 
 int main() {
-	S21Matrix a(3, 4);
-	S21Matrix b(4, 5);
-	a.PrintMatrix();
-	b.PrintMatrix();
-	a.MulMatrix(b);
-	a.PrintMatrix();
+	S21Matrix source(4, 5);
+	S21Matrix target(4, 5);	
+	target = std::move(source);
+	target.PrintMatrix();
+	// a.~S21Matrix();
+	// a.PrintMatrix();
 }

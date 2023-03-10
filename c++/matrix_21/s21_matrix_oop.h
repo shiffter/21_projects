@@ -6,9 +6,6 @@
 
 class S21Matrix
 {
-	private:
-		int _rows, _cols;
-		double **matrix;
 
 	public:
 		S21Matrix();
@@ -41,13 +38,20 @@ class S21Matrix
 		void SubMatrix(const S21Matrix&);
 		void MulNumber(const double);
 		void MulMatrix(const S21Matrix&);
+		// help methods
+		void free_matrix();		
+		double** alloc(); 
 		// Operators
 		bool operator==(const S21Matrix& r);
 		S21Matrix& operator+(const S21Matrix& r);
 		S21Matrix& operator-(const S21Matrix& r);
 		S21Matrix& operator=(const S21Matrix&);
+		S21Matrix& operator=(S21Matrix&&);
 		// S21Matrix& operator*(const S21Matrix&);
 
+	private:
+		int _rows, _cols;
+		double **matrix;
 };
 
 #endif
