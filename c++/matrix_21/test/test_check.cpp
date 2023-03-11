@@ -126,20 +126,17 @@ TEST(Mul, Matrix){
 	double** p = tmp.getM();
 	S21Matrix m2(4, 5);
 	m1.MulMatrix(m2);
-	m1.PrintMatrix();
 
 	double** p1 = m1.getM();
 	double** p2 = m2.getM();
 
-	cout << p1[0][0] << endl;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 5; j++) {
 			double t = 0;
-			for (int k = 0; k < m1.getC(); k++){
+			for (int k = 0; k < 4; k++){
 				t += p[i][k] * p2[k][j];
 			}
-			// ASSERT_EQ(p1[i][j], t);
-			cout << p1[i][j] << "  "<< t << endl;
+			ASSERT_EQ(p1[i][j], t);
 		}
 	}
 
@@ -147,6 +144,20 @@ TEST(Mul, Matrix){
 }
 
 
+TEST(Transpose, Matrix) {
+	S21Matrix m1(3, 6);
+	S21Matrix tmp = m1;
+	m1.Transponse();
+
+	double** m1_p = m1.getM();
+	double** tmp_p = tmp.getM();
+
+	for (int i = 0; i < m1.getC(); i++) {
+		for (int j = 0; j < m1.getR(); j++) {
+			ASSERT_EQ(tmp_p[i][j], m1_p[j][i]);
+		}
+	}
+}
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);

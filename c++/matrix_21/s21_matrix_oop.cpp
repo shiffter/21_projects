@@ -138,9 +138,10 @@ void S21Matrix::MulMatrix(const S21Matrix& o) {
 	if (_cols != o._rows) {
 		throw "Incorrect matrix size";
 	}
-
-	S21Matrix result(_rows, o.getC());
+	
 	S21Matrix tmp = *this;
+	free_matrix();
+	S21Matrix result(tmp._rows, o._cols);
 	for (int i = 0; i < _rows; i++) {
 		for (int j = 0; j < o.getC(); j++ ) {
 			double t = 0;
@@ -150,19 +151,43 @@ void S21Matrix::MulMatrix(const S21Matrix& o) {
 			result.matrix[i][j] = t;
 		}
 	}
-	// this = std::move(&result);
+	*this = std::move(result);
 }
-	
-//helpers func
 
+
+S21Matrix S21Matrix::Transponse() {
+	if (_rows < 1 || _cols < 1) {
+		throw "Empty matrix";
+	}
+
+	S21Matrix tmp(_cols, _rows);
+	for (int i = 0; i < tmp._rows; i++) {
+		for (int j = 0; j < tmp._cols; j++ ) {
+			tmp.matrix[i][j] = matrix[j][i];
+		}
+	}
+	*this = std::move(tmp);
+	return *this;
+}
+
+
+// S21Matrix CalcComplements(){
+// 	if (_rows != _cols) {
+// 		throw "Matrix should be square";
+// 	}
+//
+// 	
+// }
+//helpers func
 
 void S21Matrix::free_matrix() {
 	if (matrix) {
 		for (int i = 0; i < _rows; i++) {
 			delete[] matrix[i];
+			matrix[i] = nullptr;
 		}
 		delete[] matrix;
-		// this->PrintMatrix();
+		matrix = nullptr;
 	}
 }		
 
@@ -175,6 +200,44 @@ double** S21Matrix::alloc() {
 }
 
 
+S21Matrix S21Matrix::find_minor(int r, int c){
+	S21Matrix result(_rows-1, _cols-1);
+	
+	for (int i = 0, k = 0; i < _rows;) {
+		if (i == r) { i++; continue; }
+
+		for (int j = 0, m = 0; j < _cols;) {
+			if (j == c) { j++; continue; }
+			result.matrix[k][m] = matrix[i][j];
+			j++; m++;
+		}
+	i++; k++;
+	}
+	return result;
+}
+
+
+double S21Matrix::Determinant() {
+	double d = 0; 	
+	// add check
+	if (_rows == 1) {
+		d = matrix[0][0];
+	}
+	if (_rows == 2) {
+	d = matrix[0][0] * matrix[1][1] - matrix[1][0] * matrix[0][1];
+	} else if (_rows > 2) {
+		for (int j = 0; j < _rows; j++) {
+			double tmp_d = 0;
+			S21Matrix tmp = find_minor(0, j);
+			tmp_d = tmp.Determinant();
+			d += pow(-1, j) * matrix[0][j] * tmp_d;
+		}
+	}
+	return d;
+}
+
+
+//Operators
 bool S21Matrix::operator==(const S21Matrix& right) {
 	return this->EqMatrix(right);
 }
@@ -229,10 +292,7 @@ S21Matrix& S21Matrix::operator=(S21Matrix&& o) {
 // }
 
 int main() {
-	S21Matrix source(4, 5);
-	S21Matrix target(4, 5);	
-	target = std::move(source);
-	target.PrintMatrix();
-	// a.~S21Matrix();
-	// a.PrintMatrix();
+	S21Matrix a(3, 3);
+	a.PrintMatrix();
+	cout << a.Determinant() << endl;
 }

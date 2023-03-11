@@ -38,9 +38,13 @@ class S21Matrix
 		void SubMatrix(const S21Matrix&);
 		void MulNumber(const double);
 		void MulMatrix(const S21Matrix&);
+		S21Matrix Transponse();
+		S21Matrix CalcComplements();
+		double Determinant();
 		// help methods
 		void free_matrix();		
 		double** alloc(); 
+		S21Matrix find_minor(int, int); 
 		// Operators
 		bool operator==(const S21Matrix& r);
 		S21Matrix& operator+(const S21Matrix& r);
