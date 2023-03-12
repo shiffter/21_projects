@@ -4,33 +4,28 @@
 #include <iostream>
 #include <random>
 
+using std::cout;
+using std::endl;
+
 class S21Matrix
 {
 
 	public:
+		//cotr
 		S21Matrix();
 		S21Matrix(size_t, size_t);
 		~S21Matrix();
 		S21Matrix(const S21Matrix& o);
 		S21Matrix(S21Matrix&& o);
-		void setM() {
-			matrix = nullptr;
-		}
-		void setR(int val) {
-			_rows = val;
-		}
-		void setC(int val){
-			_cols = val;
-		}
 
-		int getR() const {
-			return _rows;
-		}
-		int getC() const {
-			return _cols;
-		}
-		double** getM() const { return matrix; }
-
+		//setters, getters
+		void setM();
+		void setR(int);
+		void setC(int);
+		int getR() const;
+		int getC() const;
+		double** getM() const;
+	
 		//methods 
 		void PrintMatrix();
 		bool EqMatrix(const S21Matrix&);
@@ -41,17 +36,25 @@ class S21Matrix
 		S21Matrix Transponse();
 		S21Matrix CalcComplements();
 		double Determinant();
+		S21Matrix InverseMatrix();
+
 		// help methods
 		void free_matrix();		
 		double** alloc(); 
 		S21Matrix find_minor(int, int); 
+
 		// Operators
 		bool operator==(const S21Matrix& r);
 		S21Matrix& operator+(const S21Matrix& r);
 		S21Matrix& operator-(const S21Matrix& r);
 		S21Matrix& operator=(const S21Matrix&);
 		S21Matrix& operator=(S21Matrix&&);
-		// S21Matrix& operator*(const S21Matrix&);
+		S21Matrix operator+=(S21Matrix&);
+		S21Matrix operator-=(S21Matrix&);
+		S21Matrix operator*(S21Matrix&);
+		S21Matrix operator*(double);
+		S21Matrix operator*=(S21Matrix&);
+		S21Matrix operator*=(double);
 
 	private:
 		int _rows, _cols;

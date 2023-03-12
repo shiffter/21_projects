@@ -1,4 +1,4 @@
-#include "../s21_matrix_oop.cpp"
+#include "../s21"
 #include <gtest/gtest.h>
 #include <thread>
 
@@ -158,6 +158,41 @@ TEST(Transpose, Matrix) {
 		}
 	}
 }
+
+
+TEST(Determinant, Matrix) {
+	S21Matrix m1(3,3);
+	double** m1_p = m1.getM();
+	for (int i = 1; i < 3; i++) {
+		for (int j = 1; j < 3; j++) {
+			if (j % 2 == 0) {
+				m1_p[i-1][j-1] = j / 2;
+			}
+			m1_p[i-1][j-1] = i * 3;
+		}
+	}
+	double det = m1.Determinant();
+	ASSERT_NEAR( det, -270, 1e-6);
+}
+
+
+TEST(Inverse, Matrix) {
+	S21Matrix result(5, 5);	
+	S21Matrix tmp = result;
+	result = result.InverseMatrix();
+	double d = tmp.Determinant();
+	S21Matrix alg_comp = tmp.CalcComplements();
+	tmp = alg_comp.Transponse();
+	double** tmp_p = tmp.getM();
+	double** res_p = result.getM();
+	for (int i = 0; i < tmp.getR(); i++) {
+		for (int j = 0; j < tmp.getC(); j++ ) {
+			tmp_p[i][j] /= d;
+			ASSERT_EQ(res_p[i][j], tmp_p[i][j]);
+		}
+	}
+}
+
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
