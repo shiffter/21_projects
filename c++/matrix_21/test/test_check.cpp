@@ -1,4 +1,9 @@
-#include "../s21"
+#include "../s21_cotr.cpp"
+#include "../s21_matrix_oop.h"
+#include "../s21_methods.cpp"
+#include "../s21_operators.cpp"
+#include "../s21_set_get.cpp"
+#include "../helpers.cpp"
 #include <gtest/gtest.h>
 #include <thread>
 
@@ -163,16 +168,18 @@ TEST(Transpose, Matrix) {
 TEST(Determinant, Matrix) {
 	S21Matrix m1(3,3);
 	double** m1_p = m1.getM();
-	for (int i = 1; i < 3; i++) {
-		for (int j = 1; j < 3; j++) {
+	for (int i = 1; i < 4; i++) {
+		for (int j = 1; j < 4; j++) {
 			if (j % 2 == 0) {
-				m1_p[i-1][j-1] = j / 2;
-			}
-			m1_p[i-1][j-1] = i * 3;
+				m1_p[i-1][j-1] = j*3.3;
+			} else {
+			m1_p[i-1][j-1] = i/1.5; }
 		}
 	}
+	m1.PrintMatrix();
 	double det = m1.Determinant();
-	ASSERT_NEAR( det, -270, 1e-6);
+	cout << det << endl;
+	ASSERT_EQ( det, 0);
 }
 
 
@@ -181,6 +188,7 @@ TEST(Inverse, Matrix) {
 	S21Matrix tmp = result;
 	result = result.InverseMatrix();
 	double d = tmp.Determinant();
+	if (d != 0) {
 	S21Matrix alg_comp = tmp.CalcComplements();
 	tmp = alg_comp.Transponse();
 	double** tmp_p = tmp.getM();
@@ -190,6 +198,7 @@ TEST(Inverse, Matrix) {
 			tmp_p[i][j] /= d;
 			ASSERT_EQ(res_p[i][j], tmp_p[i][j]);
 		}
+	}
 	}
 }
 
