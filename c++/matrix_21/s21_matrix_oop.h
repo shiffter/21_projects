@@ -18,17 +18,12 @@ public:
   S21Matrix(S21Matrix &&o);
 
   // setters, getters
-  void setM();
-  void setR(int);
-  void setC(int);
-<<<<<<< HEAD
+  // void setM();
+  void set_rows(int);
+  void set_cols(int);
   int get_rows() const;
   int get_cols() const;
-=======
-  int getR() const;
-  int getC() const;
->>>>>>> c80a8d0c46ee55dcc5468f3539756e6818982abd
-  double **getM() const;
+  // double **getM() const;
 
   // methods
   void PrintMatrix();
@@ -44,7 +39,7 @@ public:
 
   // help methods
   void free_matrix();
-  double **alloc();
+  double* alloc();
   S21Matrix find_minor(int, int);
 
   // Operators
@@ -59,14 +54,13 @@ public:
   S21Matrix operator*(double);
   S21Matrix operator*=(S21Matrix &);
   S21Matrix operator*=(double);
+  double& operator()(int row, int col);
+  double& operator() (int row, int col) const;
+
 
 private:
-<<<<<<< HEAD
   int rows_, cols_;
-=======
-  int _rows, _cols;
->>>>>>> c80a8d0c46ee55dcc5468f3539756e6818982abd
-  double **matrix;
+  double *matrix;
 };
 
 #endif

@@ -22,13 +22,30 @@ S21Matrix &S21Matrix::operator-(const S21Matrix &m2) {
   return *this;
 }
 
+double& S21Matrix::operator()(int row, int col){
+	if (row >= rows_ || col >= cols_ || row < 0 || col < 0) {
+		throw std::exception();
+	}
+
+  // cout << "() operator used" << endl;
+	return matrix[row * cols_ + col];
+}
+
+double& S21Matrix::operator()(int row, int col) const {
+	if (row >= rows_ || col >= cols_ || row < 0 || col < 0) {
+		throw std::exception();
+	}
+  // cout << "const () operator used" << endl;
+	return matrix[row * cols_ + col];
+}
+
 // if (this != &other) { ... }
 S21Matrix &S21Matrix::operator=(const S21Matrix &m2) {
   this->free_matrix();
-  this->matrix = this->alloc();
+  // this->matrix = this->alloc();
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      matrix[i][j] = m2.matrix[i][j];
+      (*this)(i, j) = m2(i, j);
     }
   }
   cout << "= copy operator used" << endl;
@@ -94,3 +111,5 @@ S21Matrix S21Matrix::operator*=(double n) {
   cout << "*= number operator used" << endl;
   return *this;
 }
+
+

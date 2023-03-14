@@ -3,7 +3,7 @@
 void S21Matrix::PrintMatrix() {
   for (int i = 0; i < rows_; i++) {
     for (int j = 0; j < cols_; j++) {
-      cout << matrix[i][j] << " ";
+      cout << (*this)(i, j) << " ";
     }
     cout << endl;
   }
@@ -16,21 +16,21 @@ void S21Matrix::PrintMatrix() {
 // Кстати FreeMatrix() по гугл-стилю
 void S21Matrix::free_matrix() {
   if (matrix) {
-    for (int i = 0; i < rows_; i++) {
-      delete[] matrix[i];
-      matrix[i] = nullptr;
-    }
+    // for (int i = 0; i < rows_; i++) {
+    //   delete[] matrix[i];
+    //   matrix[i] = nullptr;
+    // }
     delete[] matrix;
     matrix = nullptr;
   }
 }
 
 // Приватной должна быть 100%
-double **S21Matrix::alloc() {
-  matrix = new double *[rows_];
-  for (int i = 0; i < rows_; i++) {
-    matrix[i] = new double[cols_];
-  }
+double* S21Matrix::alloc() {
+  matrix = new double [rows_ * cols_];
+  // for (int i = 0; i < rows_; i++) {
+  //   matrix[i] = new double[cols_];
+  // }
   return matrix;
 }
 
@@ -48,7 +48,7 @@ S21Matrix S21Matrix::find_minor(int r, int c) {
         j++;
         continue;
       }
-      result.matrix[k][m] = matrix[i][j];
+      result(k, m) = (*this)(i, j);
       j++;
       m++;
     }

@@ -3,8 +3,8 @@
 // TODO: S21Matrix::S21Matrix() : rows_(0), cols_(0), matrix(nullptr)
 // И во всех конструкторах
 S21Matrix::S21Matrix() : rows_(1), cols_(1) {
-	matrix = new double*[1];
-	matrix[0] = new double[1];
+	matrix = new double[1]{};
+	cout << "default constctor usd" << endl;
   // все переменные не по Google Style
   // rows_
   // cols_
@@ -29,10 +29,10 @@ S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
   // 1) Дублирование кода
   // 2) Не реализована базовая гарантия безопасности исключений
   // try {
-  matrix = new double *[rows_];
-  for (int i = 0; i < rows_; i++) {
-    matrix[i] = new double[cols_]{};
-  }
+  matrix = new double [rows_ * cols_];
+  // for (int i = 0; i < rows_; i++) {
+  //   matrix[i] = new double[cols_]{};
+  // }
   // Примерно так базовая гарантия:
   /*} catch (...) {
     for (int j = 0; j < i; ++j) {
@@ -50,33 +50,34 @@ S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
   // matrix[i] = new double[c]();
   // for (int i = 0; i < rows; i++) {
   //   for (int j = 0; j < cols; j++) {
-  //     matrix[i][j] = 0; // rand() % 20;// dist(gen);
+  //     matrix(i, j) = 0; // rand() % 20;// dist(gen);
   //   }
   // }
+	cout << "param constctor usd" << endl;
 }
 
-S21Matrix::S21Matrix(const S21Matrix &o) {
-  rows_ = o.get_rows();
-  cols_ = o.get_cols();
+S21Matrix::S21Matrix(const S21Matrix &other) {
+  rows_ = other.get_rows();
+  cols_ = other.get_cols();
   // matrix = nullptr;
   // Основной смысл инкапсуляции защитить инварианты класса и его приватные данные
   // matrixO - можно менять напрямую - плохо
   // Работать с указателями - очень плохо
   // Указателей, особенно других матриц, не должно использоваться нигде
-  double **matrixO = o.getM();
-  matrix = new double *[rows_];
-  for (int i = 0; i < rows_; i++) {
-    matrix[i] = new double[cols_];
-  }
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
+  // double **matrixO = o.getM();
+  matrix = new double [rows_ * cols_];
+  // for (int i = 0; i < rows_; i++) {
+  //   matrix[i] = new double[cols_];
+  // }
+  // for (int i = 0; i < rows_; i++) {
+  //   for (int j = 0; j < cols_; j++) {
       // можно так:
       // (*this)(i,j) = o(i,j);
       // так тоже можно (но не рекомендую):
-      // matrix[i][j] = o.matrix[i][j];
-      matrix[i][j] = matrixO[i][j];
-    }
-  }
+      // matrix(i, j) = other.matrix(i, j);
+      // matrix(i, j) = matrixO(i, j);
+    // }
+  // }
   cout << "Copy constr used" << endl;
 }
 
@@ -98,16 +99,20 @@ S21Matrix::S21Matrix(S21Matrix &&o) {
 
 // А почему бы не вызывать free_matrix() ?
 S21Matrix::~S21Matrix() {
-  if (matrix) {
-    for (int i = 0; i < rows_; i++) {
-      delete[] matrix[i];
-    }
+  // if (matrix) {
+	  //
+  //   for (int i = 0; i < rows_; i++) {
+  //     delete[] matrix[i];
+  //   }
     delete[] matrix;
-  }
+  // }
 }
 
 // TODO: ни в коем случае!!!
 int main() {
-	
+	S21Matrix a{5, 5};
+	a(1, 1) = 3;
+	// cout << a(1, 1) << endl;
+	a.PrintMatrix();
 
 }
