@@ -1,19 +1,25 @@
-#include "../s21_matrix_oop.cpp"
+#include "../s21_cotr.cpp"
+#include "../s21_matrix_oop.h"
+#include "../s21_methods.cpp"
+#include "../s21_operators.cpp"
+#include "../s21_set_get.cpp"
+#include "../helpers.cpp"
 #include <gtest/gtest.h>
 #include <thread>
 
-
+// TODO: отформатировать файл через clang-format
 TEST(CreateMatrix, DefaultConstr) {
-	S21Matrix a;
-	ASSERT_EQ(0, a.getR());
-	ASSERT_EQ(0, a.getC());
+	S21Matrix test_mtrx();
+	ASSERT_EQ(1, test_mtrx.getR());
+	ASSERT_EQ(1, test_mtrx.getC());
 }
 
 TEST(CreateMatrix, ParamConstr) {
-	S21Matrix a(3, 5);
+	S21Matrix a{3, 5);
 	ASSERT_EQ(3, a.getR());
 	ASSERT_EQ(5, a.getC());
 
+	ASSERT_ANY_THROW(S21Matrix a{0, 0});
 	try {
 		S21Matrix a(0, 0);
 	} catch(const char* msg) {
@@ -71,9 +77,13 @@ TEST(Sum, Matrix) {
 TEST(Sum, InccorectSize){
 	S21Matrix m1(3, 2);
 	S21Matrix m2(4, 3);
+	// TODO: можно так
+	// ASSERT_THROW(m1.SumMatrix(m2), std::exception);
+	// ASSERT_ANY_THROW(m1.SumMatrix(m2));
 	try	{
 		m1.SumMatrix(m2);
 	} catch (const char* msg) {
+	//
 		ASSERT_EQ(msg, "Diff matrix size");
 	}
 
@@ -147,10 +157,15 @@ TEST(Mul, Matrix){
 TEST(Transpose, Matrix) {
 	S21Matrix m1(3, 6);
 	S21Matrix tmp = m1;
+
 	m1.Transponse();
 
 	double** m1_p = m1.getM();
 	double** tmp_p = tmp.getM();
+
+	ASSERT_TRUE(m1 == tmp);
+	
+	ASSERT_EQ(m1, tmp);
 
 	for (int i = 0; i < m1.getC(); i++) {
 		for (int j = 0; j < m1.getR(); j++) {
@@ -158,6 +173,45 @@ TEST(Transpose, Matrix) {
 		}
 	}
 }
+
+
+TEST(Determinant, Matrix) {
+	S21Matrix m1(3,3);
+	double** m1_p = m1.getM();
+	for (int i = 1; i < 4; i++) {
+		for (int j = 1; j < 4; j++) {
+			if (j % 2 == 0) {
+				m1_p[i-1][j-1] = j*3.3;
+			} else {
+			m1_p[i-1][j-1] = i/1.5; }
+		}
+	}
+	m1.PrintMatrix();
+	double det = m1.Determinant();
+	cout << det << endl;
+	ASSERT_EQ( det, 0);
+}
+
+
+TEST(Inverse, Matrix) {
+	S21Matrix result(5, 5);	
+	S21Matrix tmp = result;
+	result = result.InverseMatrix();
+	double d = tmp.Determinant();
+	if (d != 0) {
+	S21Matrix alg_comp = tmp.CalcComplements();
+	tmp = alg_comp.Transponse();
+	double** tmp_p = tmp.getM();
+	double** res_p = result.getM();
+	for (int i = 0; i < tmp.getR(); i++) {
+		for (int j = 0; j < tmp.getC(); j++ ) {
+			tmp_p[i][j] /= d;
+			ASSERT_EQ(res_p[i][j], tmp_p[i][j]);
+		}
+	}
+	}
+}
+
 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
