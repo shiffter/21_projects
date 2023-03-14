@@ -1,7 +1,11 @@
 CC = gcc
 
+<<<<<<< HEAD
 # TODO: add -std=c++17 -pedantic
 CFLAGS = -Wall -Wextra -Werror -std=c++17 -pedantic
+=======
+CFLAGS = -Wall -Wextra -Werror
+>>>>>>> c80a8d0c46ee55dcc5468f3539756e6818982abd
 MY_LIB = s21_matrix_cpp.a
 NAME = runTest
 
