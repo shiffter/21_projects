@@ -12,6 +12,16 @@ S21Matrix::S21Matrix() : rows_(1), cols_(1) {
   // Goole style: https://evgenykislov.com/wp-content/custom/cpp_codestyle/cppguide_ru.html
 }
 
+
+S21Matrix::S21Matrix(int common_len) {
+	if (common_len < 1) {
+		throw std::exception();
+	}
+	rows_ = cols_ = common_len;
+	matrix = new double [common_len^2]{};
+	cout << "const with one param" << endl;
+}
+
 // Google Style: однобуквенные переменные нельзя кроме некоторых случаев
 S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
   if (rows < 1 || cols < 1) {
@@ -23,13 +33,10 @@ S21Matrix::S21Matrix(int rows, int cols) : rows_(rows), cols_(cols) {
   }
 
   // TODO: не забыть выпилить
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  std::uniform_int_distribution<> dist(-3, 3);
   // 1) Дублирование кода
   // 2) Не реализована базовая гарантия безопасности исключений
   // try {
-  matrix = new double [rows_ * cols_];
+  matrix = new double [rows_ * cols_]{};
   // for (int i = 0; i < rows_; i++) {
   //   matrix[i] = new double[cols_]{};
   // }
@@ -65,7 +72,13 @@ S21Matrix::S21Matrix(const S21Matrix &other) {
   // Работать с указателями - очень плохо
   // Указателей, особенно других матриц, не должно использоваться нигде
   // double **matrixO = o.getM();
-  matrix = new double [rows_ * cols_];
+	// Не понимаю почему нельзя так освобождать память, тест Sum Matrix, 70 str, free(invalid pointer) 
+	// if (matrix != nullptr) {
+	// 	delete[] matrix;
+	// 	matrix = nullptr;
+	// }
+  matrix = new double[rows_ * cols_] {};
+	std::memcpy(matrix, other.matrix, rows_ * cols_ * sizeof(double));		
   // for (int i = 0; i < rows_; i++) {
   //   matrix[i] = new double[cols_];
   // }
@@ -83,14 +96,15 @@ S21Matrix::S21Matrix(const S21Matrix &other) {
 
 // C++ Core guidline обязывает нас конструктор переносом помечать как noexcept
 // Узнать про RVO и NRVO: https://habr.com/ru/company/vk/blog/666330/
-S21Matrix::S21Matrix(S21Matrix &&o) {
-  rows_ = o.rows_;
-  cols_ = o.cols_;
-  matrix = o.matrix;
-  o.rows_ = 0;
-  o.cols_ = 0;
-  o.matrix = nullptr;
+S21Matrix::S21Matrix(S21Matrix &&other) noexcept {
   cout << "move constructor using" << endl;
+	// swap_class(other);
+  rows_ = other.rows_;
+  cols_ = other.cols_;
+  matrix = other.matrix;
+  other.rows_ = 0;
+  other.cols_ = 0;
+  other.matrix = nullptr;
   // return *this;
 }
 // S21Matrix a {b};
@@ -109,10 +123,11 @@ S21Matrix::~S21Matrix() {
 }
 
 // TODO: ни в коем случае!!!
-int main() {
-	S21Matrix a{5, 5};
-	a(1, 1) = 3;
-	// cout << a(1, 1) << endl;
-	a.PrintMatrix();
+// int main() {
+// 	S21Matrix a{5, 5};
+// 	S21Matrix b{5, 5};
+// 	S21Matrix c = std::move(b);
+	// cout << "end" << endl;
+	// a.PrintMatrix();
 
-}
+// }

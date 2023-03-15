@@ -4,15 +4,20 @@
 // S21Matrix::operator==(const S21Matrix &right) const {
 // И так надо сделать много где
 // 2) this-> не надо!
-bool S21Matrix::operator==(const S21Matrix &right) {
-  return this->EqMatrix(right);
+bool S21Matrix::operator==(const S21Matrix &right) const {
+  return EqMatrix(right);
 }
 
-// S21Matrix S21Matrix::operator+(const S21Matrix &m2) const {
-S21Matrix &S21Matrix::operator+(const S21Matrix &m2) {
-  this->SumMatrix(m2);
+bool S21Matrix::operator!=(const S21Matrix &right) const {
+  return !EqMatrix(right);
+}
+
+S21Matrix S21Matrix::operator+(const S21Matrix& other) const {
   cout << "+ operator used" << endl;
-  return *this;
+// S21Matrix &S21Matrix::operator+(const S21Matrix &m2) {
+  S21Matrix result{rows_, cols_};
+	result.SumMatrix(other);
+  return result;
 }
 
 // копию
@@ -41,29 +46,31 @@ double& S21Matrix::operator()(int row, int col) const {
 
 // if (this != &other) { ... }
 S21Matrix &S21Matrix::operator=(const S21Matrix &m2) {
-  this->free_matrix();
-  // this->matrix = this->alloc();
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      (*this)(i, j) = m2(i, j);
-    }
-  }
+	if (matrix) { this->free_matrix(); }
+  this->matrix = alloc();
+	std::memcpy(matrix, m2.matrix, rows_ * cols_ * sizeof(double));
+  // for (int i = 0; i < rows_; i++) {
+  //   for (int j = 0; j < cols_; j++) {
+  //     (*this)(i, j) = m2(i, j);
+  //   }
+  // }
   cout << "= copy operator used" << endl;
   return *this;
 }
 
 // if (this != &other) { ... }
-S21Matrix &S21Matrix::operator=(S21Matrix &&o) {
+S21Matrix &S21Matrix::operator=(S21Matrix &&other) {
   // необязательно, можно this и other swap
   this->free_matrix();
-  rows_ = o.rows_;
-  cols_ = o.cols_;
-  matrix = o.matrix;
-  o.rows_ = 0;
-  o.cols_ = 0;
-  o.matrix = nullptr;
+	// swap_class(other);
+  rows_ = other.rows_;
+  cols_ = other.cols_;
+  matrix = other.matrix;
+  other.rows_ = 0;
+  other.cols_ = 0;
+  other.matrix = nullptr;
   // Никогда не вызывать деструктор класса напрямую - всё что будет дальше будет UB
-  // o.~S21Matrix();
+  // other.~S21Matrix();
   cout << "= move operator used" << endl;
   return *this;
 }
