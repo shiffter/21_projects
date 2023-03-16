@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <cstring>
+#include <cmath>
 #include <vector>
 
 using std::cout;
@@ -42,7 +43,6 @@ public:
 
   // help methods
   void free_matrix();
-  double* alloc();
   S21Matrix find_minor(int, int) const;
 	S21Matrix swap_class(S21Matrix &other);
 	void set_rand_value();
@@ -52,24 +52,26 @@ public:
   bool operator==(const S21Matrix&) const;
 	bool operator!=(const S21Matrix&) const; 
   S21Matrix operator+(const S21Matrix&) const;
-  S21Matrix &operator-(const S21Matrix&);
-  S21Matrix &operator=(const S21Matrix&);
-  S21Matrix &operator=(S21Matrix &&);
-  S21Matrix operator+=(S21Matrix &);
-  S21Matrix operator-=(S21Matrix &);
-  S21Matrix operator*(S21Matrix &);
-  S21Matrix operator*(double);
-  S21Matrix operator*=(S21Matrix &);
-  S21Matrix operator*=(double);
+  S21Matrix operator-(const S21Matrix&) const;
+  S21Matrix& operator=(const S21Matrix&);
+  S21Matrix& operator=(S21Matrix &&);
+  S21Matrix& operator+=(S21Matrix const &);
+  S21Matrix& operator-=(S21Matrix const &);
+  S21Matrix operator*(S21Matrix&);
+  S21Matrix& operator*=(S21Matrix const &);
+  S21Matrix& operator*=(double);
   double& operator()(int, int);
   double& operator() (int, int) const;
 
+	friend S21Matrix operator*(S21Matrix& obj, double n);
+	friend S21Matrix operator*(double n, S21Matrix& obj);
 
 private:
   int rows_, cols_;
   double *matrix;
 
 	//methods
+  double* alloc();
 };
 
 #endif

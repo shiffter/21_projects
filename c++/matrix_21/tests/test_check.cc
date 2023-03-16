@@ -7,7 +7,6 @@
 #include <gtest/gtest.h>
 #include <thread>
 
-// TODO: отформатировать файл через clang-format
 TEST(CreateMatrix, DefaultCtor) {
 	S21Matrix test_mtrx{};
 	ASSERT_EQ(1, test_mtrx.get_rows());
@@ -135,14 +134,8 @@ TEST(Transpose, Matrix) {
 	result = result.Transponse();
 	ASSERT_TRUE(m1 == result);
 	
-	// for (int i = 0; i < m1.getC(); i++) {
-	// 	for (int j = 0; j < m1.getR(); j++) {
-	// 		ASSERT_EQ(tmp_p(i, j), m1_p[j][i]);
-	// 	}
-	// }
 }
 
-//
 TEST(Determinant, Matrix) {
 	S21Matrix m1(1,1);
 	m1.set_rand_value();
@@ -229,6 +222,91 @@ TEST(ChangeSize, Cols) {
 	ASSERT_ANY_THROW(m1.set_cols(0));
 
 } 
+
+
+TEST(Operator, Plus) {
+	S21Matrix a{3, 3};
+	S21Matrix b{3, 3};
+	S21Matrix d{2, 3};
+	S21Matrix e{3, 4};
+
+	a.set_rand_value();
+	b.set_rand_value();
+	S21Matrix c = a + b;
+	a.SumMatrix(b);
+	ASSERT_TRUE(c.EqMatrix(a));
+	ASSERT_ANY_THROW(a + d);
+	ASSERT_ANY_THROW(a + e);
+} 
+
+
+TEST(Operator, Minus) {
+	S21Matrix a{3, 3};
+	S21Matrix b{3, 3};
+	S21Matrix d{2, 3};
+	S21Matrix e{3, 4};
+
+	a.set_rand_value();
+	b.set_rand_value();
+	S21Matrix c = a - b;
+	a.SubMatrix(b);
+	ASSERT_TRUE(c.EqMatrix(a));
+	ASSERT_ANY_THROW(a + d);
+	ASSERT_ANY_THROW(a + e);
+} 
+
+TEST(Operator, equal) {
+	S21Matrix a{5, 5};
+	S21Matrix tmp = a;
+	S21Matrix b{3, 5};
+	a = a;
+	ASSERT_TRUE(a.EqMatrix(tmp));
+
+	S21Matrix dst{5, 5};
+	a.set_rand_value();
+	dst = a;
+	ASSERT_TRUE(dst.EqMatrix(a));
+}
+
+TEST(Operator, Brackets) {
+	S21Matrix a{5, 5};
+	const S21Matrix b{5, 5};
+	ASSERT_ANY_THROW(a(6,65) = 3);
+	ASSERT_ANY_THROW(b(-1,5) = 3);
+}
+
+TEST(Operator, Mult) {
+	S21Matrix a{4, 3};
+	S21Matrix b{3, 6};
+	a.set_rand_value();
+	b.set_rand_value();
+	S21Matrix c = a * b;
+	a.MulMatrix(b);
+	ASSERT_TRUE(c.EqMatrix(a));
+}
+
+
+
+TEST(Operator, Mult_1) {
+	S21Matrix a{1, 5};
+	S21Matrix b{5, 10};
+	a.set_rand_value();
+	b.set_rand_value();
+	S21Matrix c = a * b;
+	a.MulMatrix(b);
+	ASSERT_TRUE(c.EqMatrix(a));
+}
+
+
+
+TEST(Operator, Mult_2) {
+	S21Matrix a{1, 3};
+	S21Matrix b{5, 10};
+	a.set_rand_value();
+	b.set_rand_value();
+	ASSERT_ANY_THROW(a * b);
+}
+
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

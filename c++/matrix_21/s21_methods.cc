@@ -54,7 +54,7 @@ void S21Matrix::MulMatrix(const S21Matrix &other) {
   S21Matrix result(rows_, other.cols_);
   for (int i = 0; i < result.rows_; i++) {
     for (int j = 0; j < result.cols_; j++) {
-      double t = 0;
+      // double t = 0;
       for (int k = 0; k < cols_; k++) {
         result(i,j) += (*this)(i, k) * other(k, j);
       }
