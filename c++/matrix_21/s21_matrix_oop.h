@@ -4,6 +4,7 @@
 #include <iostream>
 #include <random>
 #include <cstring>
+#include <vector>
 
 using std::cout;
 using std::endl;
@@ -45,6 +46,7 @@ public:
   S21Matrix find_minor(int, int) const;
 	S21Matrix swap_class(S21Matrix &other);
 	void set_rand_value();
+	int elem_count() const;
 
   // Operators
   bool operator==(const S21Matrix&) const;

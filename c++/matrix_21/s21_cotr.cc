@@ -125,9 +125,8 @@ S21Matrix::~S21Matrix() {
 // TODO: ни в коем случае!!!
 // int main() {
 // 	S21Matrix a{5, 5};
-// 	S21Matrix b{5, 5};
-// 	S21Matrix c = std::move(b);
-	// cout << "end" << endl;
-	// a.PrintMatrix();
-
+// 	a.set_rand_value();
+// 	a.set_cols(6);
+// 	a.PrintMatrix();
+// 	cout << a.elem_count() << endl;
 // }

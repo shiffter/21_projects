@@ -201,6 +201,34 @@ TEST(Inverse, Matrix) {
 }
 
 
+TEST(ChangeSize, Rows) {
+	S21Matrix m1{3, 4};
+	m1.set_rows(5);
+
+	ASSERT_EQ(m1.get_rows(), 5);
+	ASSERT_EQ(m1.get_cols(), 4);
+
+	m1.set_rows(2);
+	ASSERT_EQ(m1.get_rows(), 2);
+
+	ASSERT_ANY_THROW(m1.set_rows(0));
+
+} 
+
+
+TEST(ChangeSize, Cols) {
+	S21Matrix m1{5, 3};
+	m1.set_cols(4);
+
+	ASSERT_EQ(m1.get_rows(), 5);
+	ASSERT_EQ(m1.get_cols(), 4);
+
+	m1.set_cols(2);
+	ASSERT_EQ(m1.get_cols(), 2);
+
+	ASSERT_ANY_THROW(m1.set_cols(0));
+
+} 
 int main(int argc, char** argv) {
 	testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();

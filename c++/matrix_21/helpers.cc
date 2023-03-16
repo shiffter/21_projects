@@ -35,6 +35,12 @@ double* S21Matrix::alloc() {
 }
 
 
+int S21Matrix::elem_count() const{
+	return rows_ * cols_;	
+}
+
+
+
 S21Matrix S21Matrix::swap_class(S21Matrix &other){
 	// if (*this != other){
 		// std::swap(cols_, other.cols_);
