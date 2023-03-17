@@ -1,4 +1,4 @@
-CC = gcc
+CC = g++
 
 CFLAGS = -Wall -Wextra -Werror -std=c++17 -lstdc++ -pedantic
 UBUNTU_FLAGS = -lpthread -lsubunit -lrt
@@ -8,14 +8,13 @@ MY_LIB = s21_matrix_cpp.a
 NAME = runTest
 COMMON_LIB = -lm
 
-
-
 SRCS = $(wildcard *.cc)
 OBJF = $(SRCS:%.cc=objf/%.o)
 
 SRCSTEST = $(wildcard tests/*.cc)
 OBJSTEST 	= 	$(SRCSTEST:%.cc=objs_test/%.o)
 OBJTESTDIR 	= 	objs_test objs_test/tests
+REPORT_NAME = report
 
 UNAME := $(shell uname)
 
@@ -23,10 +22,9 @@ ifeq ($(UNAME), Linux)
 	CFLAGS += $(UBUNTU_FLAGS)
 endif
 
-all: $(MY_LIB) 
+all: clean gcov_report html
 
-flags:
-	echo $(CFLAGS)
+s21_matrix_oop.a: $(MY_LIB) 
 
 test: $(OBJSTEST)
 	$(CC) $(OBJSTEST) $(TEST_FLAGS) $(COMMON_LIB) -o ./tests/$(NAME) $(GCOV_FLAGS)
@@ -59,8 +57,15 @@ objs_test/%.o: %.cc
 	$(CC) -o $@ -c $< $(GCOV_FLAGS)
 
 lint:
-	clang-format -i *.h *.cc
+	clang-format -i *.h *.cc ./tests/*
 
+leaks: test
+ifeq ($(UNAME), Linux)
+	valgrind --leak-check=full --track-origins=yes --read-inline-info=yes --show-leak-kinds=all -s ./tests/$(NAME)
+endif
+ifeq ($(UNAME), Darwin)
+	leaks --atExit ./tests/$(NAME)
+endif
 
 html:
 ifeq ($(UNAME), Linux)
@@ -69,4 +74,3 @@ endif
 ifeq ($(UNAME), Darwin)
 	open finish/index.html
 endif
-

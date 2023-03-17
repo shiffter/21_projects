@@ -56,7 +56,7 @@ void S21Matrix::MulMatrix(const S21Matrix &other) {
     for (int j = 0; j < result.cols_; j++) {
       // double t = 0;
       for (int k = 0; k < cols_; k++) {
-        result(i,j) += (*this)(i, k) * other(k, j);
+        result(i, j) += (*this)(i, k) * other(k, j);
       }
     }
   }
@@ -74,11 +74,11 @@ S21Matrix S21Matrix::Transponse() const {
   return tmp;
 }
 
-double S21Matrix::Determinant() const{
+double S21Matrix::Determinant() const {
   double det = 0;
-	if (rows_ != cols_) {
-		throw std::exception();
-	}
+  if (rows_ != cols_) {
+    throw std::exception();
+  }
 
   if (rows_ == 1) {
     det = (*this)(0, 0);
@@ -91,7 +91,7 @@ double S21Matrix::Determinant() const{
       double tmp_det = 0;
       S21Matrix tmp = find_minor(0, j);
       tmp_det = tmp.Determinant();
-      det += pow(-1, j) *(*this)(0, j) * tmp_det;
+      det += pow(-1, j) * (*this)(0, j) * tmp_det;
     }
   }
   return det;
@@ -122,17 +122,17 @@ S21Matrix S21Matrix::InverseMatrix() {
   }
 
   double d = Determinant();
-  if (d == 0) { 
-		throw std::exception();
-	}
+  if (d == 0) {
+    throw std::exception();
+  }
 
   S21Matrix result(rows_, cols_);
   result = Transponse().CalcComplements();
-    for (int i = 0; i < rows_; i++) {
-      for (int j = 0; j < cols_; j++) {
-        result(i, j) /= d;
-      }
+  for (int i = 0; i < rows_; i++) {
+    for (int j = 0; j < cols_; j++) {
+      result(i, j) /= d;
     }
+  }
 
   return result;
 }

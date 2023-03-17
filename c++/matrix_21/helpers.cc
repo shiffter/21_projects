@@ -17,15 +17,12 @@ void S21Matrix::free_matrix() {
   }
 }
 
-double* S21Matrix::alloc() {
-  matrix = new double [rows_ * cols_];
+double *S21Matrix::alloc() {
+  matrix = new double[rows_ * cols_];
   return matrix;
 }
 
-
-int S21Matrix::elem_count() const{
-	return rows_ * cols_;	
-}
+int S21Matrix::elem_count() const { return rows_ * cols_; }
 
 S21Matrix S21Matrix::find_minor(int r, int c) const {
   S21Matrix result(rows_ - 1, cols_ - 1);
@@ -49,12 +46,11 @@ S21Matrix S21Matrix::find_minor(int r, int c) const {
   return result;
 }
 
-
 void S21Matrix::set_rand_value() {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_int_distribution<> dist(-3, 3);
-	for (int cur = 0; cur < rows_ * cols_; cur++){
-		matrix[cur] = dist(gen);  // rand() % 20;
-	}
+  for (int cur = 0; cur < rows_ * cols_; cur++) {
+    matrix[cur] = dist(gen); // rand() % 20;
+  }
 }
