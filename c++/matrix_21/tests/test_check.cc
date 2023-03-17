@@ -1,9 +1,10 @@
-#include "../s21_cotr.cc"
+#include "../s21_ctor.cc"
 #include "../s21_matrix_oop.h"
 #include "../s21_methods.cc"
 #include "../s21_operators.cc"
 #include "../s21_set_get.cc"
 #include "../helpers.cc"
+// #include "../s21_matrix_oop.h"
 #include <gtest/gtest.h>
 #include <thread>
 
@@ -20,6 +21,7 @@ TEST(CreateMatrix, ParamCtor) {
 
 	S21Matrix b;
 	ASSERT_ANY_THROW(S21Matrix s(0, 0));
+	ASSERT_ANY_THROW(S21Matrix s1(0));
 }
 
 TEST(CreateMatrix, OneParamCtor) {
@@ -162,6 +164,7 @@ TEST(Determinant, Matrix) {
 TEST(Calculate, Complements) {
 	S21Matrix m1{4, 3};
 	ASSERT_ANY_THROW(m1.Determinant());
+	ASSERT_ANY_THROW(m1.CalcComplements());
 
 	S21Matrix m2{3, 3};
 	m2(0, 0) = 5; m2(0, 1) = -0.2; m2(0, 2) = 1.5;
@@ -179,6 +182,9 @@ TEST(Calculate, Complements) {
 TEST(Inverse, Matrix) {
 	S21Matrix m1{4, 3};
 	ASSERT_ANY_THROW(m1.Determinant());
+	ASSERT_ANY_THROW(m1.InverseMatrix());
+	S21Matrix m3{3, 3};
+	ASSERT_ANY_THROW(m3.InverseMatrix());
 
 	S21Matrix m2(3, 3);
 	m2(0, 0) = 5; m2(0, 1) = -0.2; m2(0, 2) = 1.5;
@@ -305,6 +311,66 @@ TEST(Operator, Mult_2) {
 	a.set_rand_value();
 	b.set_rand_value();
 	ASSERT_ANY_THROW(a * b);
+}
+
+
+TEST(Operator, SumEqual) {
+	S21Matrix a{3, 3};
+	S21Matrix b{3, 3};
+	a.set_rand_value();
+	S21Matrix tmp_a = a;
+	b.set_rand_value();
+	a += b;
+	ASSERT_TRUE(a.EqMatrix(tmp_a + b));
+	S21Matrix c{3, 4};
+
+	ASSERT_ANY_THROW(a += c);
+}
+
+TEST(Operator, DiffEqual) {
+	S21Matrix a{3, 3};
+	S21Matrix b{3, 3};
+	a.set_rand_value();
+	S21Matrix tmp_a = a;
+	b.set_rand_value();
+	a -= b;
+	ASSERT_TRUE(a.EqMatrix(tmp_a - b));
+	S21Matrix c{3, 4};
+
+	ASSERT_ANY_THROW(a -= c);
+}
+
+TEST(Operator, MultiplicationNumber) {
+	S21Matrix a{3, 3};
+	a.set_rand_value();
+	S21Matrix tmp = a;
+	a = a * 3.3;	
+	ASSERT_TRUE(a.EqMatrix(tmp * 3.3));
+	a = tmp;
+	a = 6.9 * a;
+	ASSERT_TRUE(a.EqMatrix(tmp * 6.9));
+}
+
+TEST(Operator, MultiplicationEqualNumber) {
+	S21Matrix a{3, 3};
+	a.set_rand_value();
+	S21Matrix tmp = a;
+	a *= 3.3;	
+	ASSERT_TRUE(a.EqMatrix(tmp * 3.3));
+	a = tmp;
+	a *= 6.9;
+	ASSERT_TRUE(a.EqMatrix(tmp * 6.9));
+}
+
+
+TEST(Operator, MultiplicationEqualMatrix) {
+	S21Matrix a{3, 3};
+	S21Matrix b{3, 3};
+	a.set_rand_value();
+	b.set_rand_value();
+	S21Matrix tmp = a;
+	a *= b;	
+	ASSERT_TRUE(a.EqMatrix(tmp * b));
 }
 
 int main(int argc, char** argv) {
