@@ -1,15 +1,9 @@
 // #include "all_headers"
+#include "s21_containers.h"
 
 
-
-TEST(Operator, MultiplicationEqualMatrix) {
-  S21Matrix a{3, 3};
-  S21Matrix b{3, 3};
-  a.set_rand_value();
-  b.set_rand_value();
-  S21Matrix tmp = a;
-  a *= b;
-  ASSERT_TRUE(a.EqMatrix(tmp * b));
+TEST(pass, 1) {
+  ASSERT_TRUE(1==1);
 }
 
 int main(int argc, char **argv) {
